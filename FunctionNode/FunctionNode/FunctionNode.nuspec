@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>63F2CF50C3554B98A3F45CF0EB358B6B</id>
+    <version>0.0.0.0</version>
+    <title>$title$</title>
+    <authors>Siyuan Wang</authors>
+    <owners>$author$</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://www.github.com/clowread</projectUrl>
+    <iconUrl>https://www.github.com/clowread</iconUrl>
+    <description>UWP Function Node</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>UWP NODE</tags>
+  </metadata>
+</package>

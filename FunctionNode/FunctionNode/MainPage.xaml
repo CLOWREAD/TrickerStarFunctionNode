@@ -12,6 +12,6 @@
         <Polygon x:Name="T_Poly"></Polygon>
         <Path x:Name="T_Path" Fill="#FFE2E2E2"></Path>
         <local:TrickerStarNodeView x:Name="C_MAIN_NODE_VIEW" ></local:TrickerStarNodeView>
-        
+
     </Grid>
 </Page>

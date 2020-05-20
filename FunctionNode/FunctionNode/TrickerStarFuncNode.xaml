@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="600"
-    d:DesignWidth="400">
+    d:DesignWidth="400" GotFocus="UserControl_GotFocus" LostFocus="UserControl_LostFocus">
 
     <Grid CornerRadius="12" MinWidth="300"  >
         <Grid.ColumnDefinitions>
@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
-
+            
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid x:Name="C_CONTAINER_GRID" Grid.Column="1" Background="#FF303030" Margin="4,0,4,0" CornerRadius="8,8,0,0" BorderThickness="2,2,2,0" BorderBrush="White" >
@@ -43,6 +43,7 @@
                 <ColumnDefinition Width="2*"/>
 
             </Grid.ColumnDefinitions>
+            
             <StackPanel x:Name="C_INPUT_STACK" Margin="0,12,0,12" FocusVisualPrimaryBrush="{x:Null}" Padding="4" Grid.RowSpan="2" Grid.Row="0">
 
             </StackPanel>

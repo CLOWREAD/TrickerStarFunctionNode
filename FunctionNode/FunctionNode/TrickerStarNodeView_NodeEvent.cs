@@ -93,6 +93,7 @@ namespace FunctionNode
 
             m_ActiveElementType = ACTIVE_ELEMENT_TYPE.NODE;
             TrickerStarFunctionNode node = sender as TrickerStarFunctionNode;
+            Canvas.SetZIndex(node, 5);
             Model.TrickerStarFunctionNodeModel node_m = node.DataContext as TrickerStarFunctionNodeModel;
             m_SelectedFunctionNodeModels[node_m.NodeName]= node_m;
             node.Select(true);
@@ -101,8 +102,17 @@ namespace FunctionNode
         private void NODE_OnSlotClicked(Model.TrickerStarNodeSoltDetail slot_detail)
         {
 
-            DeleteLine(slot_detail.LineName);
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel) m_FunctionNodeModels[slot_detail.NodeName];
             if(slot_detail.SlotSide==TrickerStarSlotSide.INPUT)
+            {
+                DeleteLine(node_m.InputSlot[slot_detail.SlotIndex].LineName);
+                            }
+            if (slot_detail.SlotSide == TrickerStarSlotSide.OUTPUT)
+            {
+                DeleteLine(node_m.OutputSlot[slot_detail.SlotIndex].LineName);
+            }
+
+            if (slot_detail.SlotSide==TrickerStarSlotSide.INPUT)
             {
                 if (m_FromSlot != null)
                 {

@@ -1,5 +1,6 @@
 ﻿using FunctionNode.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,36 +45,15 @@ namespace FunctionNode
             this.InitializeComponent();
             m_TempPath = GenPath("TEMP_PATH",null);
             C_MAIN_CANVAS.Children.Add(m_TempPath);
-            AddNode("NODE_0x01");
-            AddNode("NODE_0x02");
-            AddNode("NODE_0x03");
-            // C_MAIN_CANVAS.
-            AddSlot("NODE_0x01", "EXECUTE", "Input1", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x01", "int", "Input2", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x01", "double", "Input3", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x01", "String", "Input4", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x01", "EXECUTE", "Output1", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x01", "int", "Output2", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x01", "double", "Output3", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x01", "String", "Output4", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x02", "EXECUTE", "Input1", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x02", "int", "Input2", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x02", "double", "Input3", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x02", "String", "Input4", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x02", "EXECUTE", "Output1", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x02", "int", "Output2", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x02", "double", "Output3", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x02", "String", "Output4", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x03", "EXECUTE", "Input1", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x03", "int", "Input2", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x03", "double", "Input3", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x03", "String", "Input4", TrickerStarSlotSide.INPUT);
-            AddSlot("NODE_0x03", "EXECUTE", "Output1", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x03", "int", "Output2", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x03", "double", "Output3", TrickerStarSlotSide.OUTPUT);
-            AddSlot("NODE_0x03", "String", "Output4", TrickerStarSlotSide.OUTPUT);
+           
         }
-         public void AddNode(String NodeName)
+
+        public void TS_SetCanvasSize(Size size)
+        {
+            C_MAIN_CANVAS.Width = size.Width;
+            C_MAIN_CANVAS.Height = size.Height; 
+        }
+         public void TS_AddNode(String NodeName)
         {
             Model.TrickerStarFunctionNodeModel node_m = new Model.TrickerStarFunctionNodeModel();
             node_m.NodeName = NodeName;
@@ -82,19 +62,138 @@ namespace FunctionNode
             Canvas.SetZIndex(node_v, 999);
             node_v.m_NodeName = NodeName;
             node_v.DataContext = node_m;
-            node_v.SetNodeName(node_m.NodeName);
+            node_v.SetNodeTitle(node_m.NodeName);
             C_MAIN_CANVAS.Children.Add(node_v);
             node_v.PointerPressed += Node_PointerPressed;
             node_v.PointerReleased += Node_PointerReleased;
             node_v.PointerMoved += Node_PointerMoved;
-            node_v.OnSlotClicked += NODE_OnSlotClicked;
+            node_v.OnSlotClicked += NODE_OnSlotClicked; 
             node_v.OnNodeClose += NODE_OnNodeClose;
             m_FunctionNodeViews.Add(NodeName, node_v);
             m_FunctionNodeModels.Add(NodeName, node_m);
 
           
         }
-        public void AddSlot(String NodeName,String typename,String slotname,Model.TrickerStarSlotSide side)
+        public Model.TrickerStarFunctionNodeModel TS_GetNode(String NodeName)
+        {
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            return node_m;
+        }
+        public Model.TrickerStarLineModel TS_GetLine(String LineName)
+        {
+            Model.TrickerStarLineModel line_m = (Model.TrickerStarLineModel)m_FunctionNodeModels[LineName];
+            return line_m;
+        }
+        public void TS_AddLine(String from_node,int from_slot_index,String to_node,int to_slot_index)
+        {
+            if (from_node == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(from_node)) return;
+            Model.TrickerStarFunctionNodeModel from_node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[from_node];
+
+            if (to_node == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(to_node)) return;
+            Model.TrickerStarFunctionNodeModel to_node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[to_node];
+
+
+            AddLine(from_node_m.OutputSlot[from_slot_index],to_node_m.InputSlot[to_slot_index] );
+        }
+
+        public void TS_DeleteLine(String LineName)
+        {
+            DeleteLine(LineName);
+        }
+        public void TS_DeleteNode(String NodeName)
+        {
+            if (NodeName == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+
+            foreach (var item in node_m.InputSlot)
+            {
+                DeleteLine(item.LineName);
+            }
+            foreach (var item in node_m.OutputSlot)
+            {
+                DeleteLine(item.LineName);
+            }
+            m_FunctionNodeModels.Remove(NodeName);
+            m_FunctionNodeViews.Remove(NodeName);
+            C_MAIN_CANVAS.Children.Remove(node_v);
+            m_SelectedFunctionNodeModels.Clear();
+            m_FromSlot = null;
+            m_ToSlot = null;
+
+
+        }
+        public void TS_ClearNode(String NodeName)
+        {
+            if (NodeName == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+
+            foreach (var item in node_m.InputSlot)
+            {
+                DeleteLine(item.LineName);
+            }
+            foreach (var item in node_m.OutputSlot)
+            {
+                DeleteLine(item.LineName);
+            }
+            node_v.ClearSlot();
+            node_m.InputSlot.Clear();
+            node_m.OutputSlot.Clear();
+
+
+        }
+        public List<String> TS_GetNodes()
+        {
+            List<String> list = new List<string>();
+            
+            foreach( object item in m_FunctionNodeModels.Keys)
+            {
+                list.Add(item.ToString());
+            }
+            return list;
+
+        }
+        public List<String> TS_GetLines()
+        {
+            List<String> list = new List<string>();
+
+            foreach (object item in m_FunctionLineModels.Keys)
+            {
+                list.Add(item.ToString());
+            }
+            return list;
+
+        }
+        public List<String> TS_GetSelectedNodes()
+        {
+            List<String> list = new List<string>();
+
+            foreach (object item in m_SelectedFunctionNodeModels.Keys)
+            {
+                list.Add(item.ToString());
+            }
+            return list;
+
+        }
+        public void TS_SetNodePosition(String NodeName,Point pos)
+        {
+            if (NodeName == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+
+            
+            node_v.Translation = new System.Numerics.Vector3((float)(node_v.Translation.X + pos.X), (float)(node_v.Translation.Y + pos.Y), node_v.Translation.Z);
+            node_m.Pos.X = node_v.Translation.X;
+            node_m.Pos.Y = node_v.Translation.Y;
+        }
+
+        public void TS_AddSlot(String NodeName,String typename,String slotname,Model.TrickerStarSlotSide side,bool placeholder=false)
         {
             if (NodeName == null) return;
             if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
@@ -102,7 +201,8 @@ namespace FunctionNode
             TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
             if(side==TrickerStarSlotSide.INPUT)
             {
-                node_v.AddInpusStack(typename, slotname);
+                node_v.AddInpusStack(typename, slotname, placeholder);
+                //node_v.AddInputLabel(typename,placeholder);
                 node_m.InputSlot.Add(new TrickerStarNodeSoltDetail()
                 {
                     NodeName = node_v.m_NodeName,
@@ -111,10 +211,12 @@ namespace FunctionNode
                     SlotName = slotname,
                     SlotType = typename,
                 });
+
             }
             if (side == TrickerStarSlotSide.OUTPUT)
             {
-                node_v.AddOutpusStack(typename, slotname);
+                node_v.AddOutpusStack(typename, slotname, placeholder);
+               // node_v.AddOutputLabel(typename,placeholder);
                 node_m.OutputSlot.Add(new TrickerStarNodeSoltDetail()
                 {
                     NodeName = node_v.m_NodeName,
@@ -186,7 +288,7 @@ namespace FunctionNode
             }
             if ((m_FromSlot == null && m_ToSlot != null) || (m_FromSlot != null && m_ToSlot == null))
             {
-                m_TempPath.Data = GenTempPathGeomentry(m_FromSlot, m_ToSlot, e.GetCurrentPoint(this).Position);
+                m_TempPath.Data = GenTempPathGeomentry(m_FromSlot, m_ToSlot, e.GetCurrentPoint(C_MAIN_CANVAS).Position);
                 m_TempPath.Visibility = Visibility.Visible;
             }
             else
@@ -208,6 +310,8 @@ namespace FunctionNode
                 TrickerStarFunctionNodeModel node_m = (TrickerStarFunctionNodeModel)m_SelectedFunctionNodeModels[node_str];
                 TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[node_str];
                 node_v.Select(false);
+                Canvas.SetZIndex(node_v, 4);
+
             }
         }
     }

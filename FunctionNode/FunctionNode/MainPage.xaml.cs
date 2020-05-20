@@ -48,6 +48,19 @@ namespace FunctionNode
             //C_NODE1.OnSlotClicked += C_NODE1_OnSlotClicked;
             Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
 
+
+            C_MAIN_NODE_VIEW.TS_AddNode("0x1234567890");
+            C_MAIN_NODE_VIEW.TS_SetNodePosition("0x1234567890", new Point(200, 300));
+            C_MAIN_NODE_VIEW.TS_AddSlot("0x1234567890", "int", "I0", Model.TrickerStarSlotSide.INPUT);
+            C_MAIN_NODE_VIEW.TS_AddSlot("0x1234567890", "int", "I1", Model.TrickerStarSlotSide.INPUT);
+
+            C_MAIN_NODE_VIEW.TS_AddNode("0x1534562970");
+            C_MAIN_NODE_VIEW.TS_AddSlot("0x1534562970", "int", "I0", Model.TrickerStarSlotSide.OUTPUT);
+            C_MAIN_NODE_VIEW.TS_AddSlot("0x1534562970", "int", "I1", Model.TrickerStarSlotSide.OUTPUT);
+
+            C_MAIN_NODE_VIEW.TS_AddLine("0x1534562970", 1, "0x1234567890", 0);
+            var nodes = C_MAIN_NODE_VIEW.TS_GetNodes();
+
         }
         private async void Dispatcher_AcceleratorKeyActivated(Windows.UI.Core.CoreDispatcher sender, Windows.UI.Core.AcceleratorKeyEventArgs args)
 

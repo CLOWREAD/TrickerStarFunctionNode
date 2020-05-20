@@ -21,6 +21,7 @@ namespace FunctionNode
     public sealed partial class TrickerStarFunctionNode : UserControl
     {
         public String m_NodeName="MAIN";
+        public String m_NodeTitle = "MAIN";
         public delegate void Delegate_SlotClicked(Model.TrickerStarNodeSoltDetail slot_detaiil);
         public event Delegate_SlotClicked OnSlotClicked ;
         public delegate void Delegate_NodeClose(String name);
@@ -60,17 +61,18 @@ namespace FunctionNode
             if (place_holder)
             {
                 C_INPUT_STACK.Children.Add(slot_grid);
+                AddInputLabel(slot, place_holder);
                 return;
             }
 
             slot_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
             slot_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-            slot_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) });
+            slot_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(4, GridUnitType.Star) });
 
             Border border = new Border();
             border.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
             TextBlock var_type = new TextBlock();
-            var_type.FontSize = 12;
+            var_type.FontSize = 8;
             var_type.HorizontalAlignment = HorizontalAlignment.Left;
             var_type.VerticalAlignment = VerticalAlignment.Stretch;
             var_type.Text = type_str;
@@ -92,13 +94,38 @@ namespace FunctionNode
             var_name.Text = name_str;
             var_name.Margin = new Thickness(0, 0, 0, 0);
             var_name.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 255, 255));
+
+            TextBox var_instance_value = new TextBox();
+            var_instance_value.Height = 32;
+            var_instance_value.FontSize = 12;
+            var_instance_value.AcceptsReturn = true;
+            var_instance_value.FontWeight = new Windows.UI.Text.FontWeight() { Weight = 500 };
+            var_instance_value.HorizontalAlignment = HorizontalAlignment.Stretch;
+            var_instance_value.VerticalAlignment = VerticalAlignment.Stretch;
+            var_instance_value.Margin = new Thickness(-1, -1, -1, -1);
+            var_instance_value.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 255, 255));
+            var_instance_value.Name = name_str;
+            var_instance_value.TextWrapping = TextWrapping.Wrap;
+            var_instance_value.MaxWidth = 400;
+
             Border name_border = new Border();
             name_border.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
             name_border.BorderBrush = new SolidColorBrush(GetTypeColor(type_str));
             name_border.BorderThickness = new Thickness(2);
             name_border.Margin = new Thickness(4);
             name_border.CornerRadius = new CornerRadius(4);
-            name_border.Child = var_name;
+            name_border.MaxWidth = 200;
+            
+
+            if (type_str.Equals("INSTANCE_VALUE"))
+            {
+                name_border.Child = var_instance_value;
+            }
+            else
+            {
+                name_border.Child = var_name;
+            }
+
 
             Grid.SetRow(name_border, 1);
             Grid.SetRowSpan(name_border, 2);
@@ -111,6 +138,14 @@ namespace FunctionNode
             slot_grid.DataContext = slot;
             slot_grid.PointerPressed += OnSlotPressed;
 
+            if (type_str.Equals("INSTANCE_VALUE"))
+            {
+                AddInputLabel(slot, true);
+            }
+            else
+            {
+                AddInputLabel(slot, place_holder);
+            }
         }
         public void AddOutpusStack(String type_str, String name_str,bool place_holder=false)
         {
@@ -139,18 +174,20 @@ namespace FunctionNode
             if(place_holder)
             {
                 C_OUTPUT_STACK.Children.Add(slot_grid);
+                AddOutputLabel(slot, place_holder);
+
                 return;
             }
 
 
             slot_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
             slot_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-            slot_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) });
+            slot_grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(4, GridUnitType.Star) });
 
             Border border = new Border();
             border.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
             TextBlock var_type = new TextBlock();
-            var_type.FontSize = 12;
+            var_type.FontSize = 8;
             var_type.HorizontalAlignment = HorizontalAlignment.Right;
             var_type.VerticalAlignment = VerticalAlignment.Stretch;
             var_type.Text = type_str;
@@ -172,13 +209,36 @@ namespace FunctionNode
             var_name.Text = name_str;
             var_name.Margin = new Thickness(0, 0, 0, 0);
             var_name.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 255, 255));
+
+            TextBox var_instance_value = new TextBox();
+            var_instance_value.AcceptsReturn = true;
+            var_instance_value.Height = 32;
+            var_instance_value.FontSize = 12;
+            var_instance_value.FontWeight = new Windows.UI.Text.FontWeight() { Weight = 500 };
+            var_instance_value.HorizontalAlignment = HorizontalAlignment.Stretch;
+            var_instance_value.VerticalAlignment = VerticalAlignment.Stretch;
+            var_instance_value.Margin = new Thickness(-1, -1, -1, -1);
+            var_instance_value.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 255, 255));
+            var_instance_value.Name = name_str;
+            var_instance_value.TextWrapping = TextWrapping.Wrap;
+            var_instance_value.MaxWidth = 400;
+
             Border name_border = new Border();
             name_border.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
             name_border.BorderBrush = new SolidColorBrush(GetTypeColor(type_str));
             name_border.BorderThickness = new Thickness(2);
             name_border.Margin = new Thickness(4);
             name_border.CornerRadius = new CornerRadius(4);
-            name_border.Child = var_name;
+            name_border.MaxWidth = 200;
+            if (type_str.Equals("INSTANCE_VALUE"))
+            {
+                name_border.Child = var_instance_value;
+            }
+            else
+            {
+                name_border.Child = var_name;
+                //AddOutputLabel(slot, place_holder);
+            }
 
             Grid.SetRow(name_border, 1);
             Grid.SetRowSpan(name_border, 2);
@@ -191,9 +251,18 @@ namespace FunctionNode
             C_OUTPUT_STACK.Children.Add(slot_grid);
             slot_grid.DataContext = slot;
             slot_grid.PointerPressed += OnSlotPressed;
+           
+            if (type_str.Equals("INSTANCE_VALUE"))
+            {
+                AddOutputLabel(slot, true);
+            }
+            else
+            {
+                AddOutputLabel(slot, place_holder);
+            }
 
         }
-        public void AddInputLabel(bool place_holder = false)
+        public void AddInputLabel(Model.TrickerStarNodeSolt slot,bool place_holder = false)
         {
             /*
              <Grid MaxHeight="48" Margin="0,0,0,0" >
@@ -215,20 +284,25 @@ namespace FunctionNode
                 return;
             }
             LabelGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-            LabelGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) });
+            LabelGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(3, GridUnitType.Star) });
             TextBlock SlotLabel = new TextBlock();
             Grid.SetRow(SlotLabel, 1);
             SlotLabel.FontSize = 24;
             SlotLabel.HorizontalAlignment = HorizontalAlignment.Left;
             SlotLabel.VerticalAlignment = VerticalAlignment.Top;
             SlotLabel.FontWeight = new Windows.UI.Text.FontWeight() { Weight = 700 };
-            SlotLabel.Text = "▶";
-            SlotLabel.Margin = new Thickness(4, 0, 0, 0);
+            SlotLabel.Text = GetTypeLabel(slot.SlotType);
+            SlotLabel.Margin = new Thickness(8, 0, 0, 0);
             SlotLabel.Foreground = new SolidColorBrush( Windows.UI.Color.FromArgb(255,0,255,0));
             LabelGrid.Children.Add(SlotLabel);
             C_INPUT_LABEL_STACK.Children.Add(LabelGrid);
+
+            LabelGrid.DataContext = slot;
+            LabelGrid.PointerPressed += OnSlotPressed;
+
+
         }
-        public void AddOutputLabel(bool place_holder = false)
+        public void AddOutputLabel(Model.TrickerStarNodeSolt slot, bool place_holder = false)
         {
             /*
              <Grid MaxHeight="48" Margin="0,0,0,0" >
@@ -250,18 +324,21 @@ namespace FunctionNode
                 return;
             }
             LabelGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-            LabelGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(2, GridUnitType.Star) });
+            LabelGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(3, GridUnitType.Star) });
             TextBlock SlotLabel = new TextBlock();
             Grid.SetRow(SlotLabel, 1);
             SlotLabel.FontSize = 24;
             SlotLabel.HorizontalAlignment = HorizontalAlignment.Right;
             SlotLabel.VerticalAlignment = VerticalAlignment.Top;
             SlotLabel.FontWeight = new Windows.UI.Text.FontWeight() { Weight = 700 };
-            SlotLabel.Text = "▶";
-            SlotLabel.Margin = new Thickness(0, 0, 4, 0);
+            SlotLabel.Text = GetTypeLabel(slot.SlotType);
+            SlotLabel.Margin = new Thickness(0, 0, 8, 0);
             SlotLabel.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 0, 0));
             LabelGrid.Children.Add(SlotLabel);
             C_OUTPUT_LABEL_STACK.Children.Add(LabelGrid);
+
+            LabelGrid.DataContext = slot;
+            LabelGrid.PointerPressed += OnSlotPressed;
         }
 
         Windows.UI.Color GetTypeColor(String type_name)
@@ -283,6 +360,28 @@ namespace FunctionNode
             }
 
             return Windows.UI.Color.FromArgb(255, 128, 255, 128);
+            
+        }
+        String GetTypeLabel(String type_name)
+        {
+            switch (type_name)
+            {
+                case "string":
+                    return "◉";
+                    break;
+                case "int":
+                    return "◉";
+                    break;
+                case "double":
+                    return "◉";
+                    break;
+                case "EXECUTE":
+                    return "◈";
+                    break;
+            }
+
+            return "◉";
+
 
         }
         void RefreshNodeHeight()
@@ -307,7 +406,7 @@ namespace FunctionNode
                 OnSlotClicked.Invoke(detail);
             }
         }
-        public void clear()
+        public void ClearSlot()
         {
             C_INPUT_LABEL_STACK.Children.Clear();
             C_OUTPUT_STACK.Children.Clear();
@@ -318,10 +417,10 @@ namespace FunctionNode
 
 
         }
-        public void SetNodeName(String name)
+        public void SetNodeTitle(String name)
         {
-            m_NodeName = name;
-            C_NODE_NAME.Text = m_NodeName;
+            m_NodeTitle = name;
+            C_NODE_NAME.Text = m_NodeTitle;
         }
         public void Select(bool selected)
         {
@@ -345,6 +444,16 @@ namespace FunctionNode
 
             OnNodeClose.Invoke(m_NodeName);
             }
+        }
+
+        private void UserControl_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Canvas.SetZIndex(this, 5);
+        }
+
+        private void UserControl_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Canvas.SetZIndex(this, 4);
         }
     }
 }

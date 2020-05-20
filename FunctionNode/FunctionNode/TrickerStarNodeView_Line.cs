@@ -20,7 +20,7 @@ namespace FunctionNode
     {
         public void  AddLine(Model.TrickerStarNodeSoltDetail from,Model.TrickerStarNodeSoltDetail to)
         {
-            Model.TrickerStarLine line = new TrickerStarLine() { LineName="LINE"+Model.TrickerStarDataModel.RandToken(),From=from,To=to};
+            Model.TrickerStarLineModel line = new TrickerStarLineModel() { LineName="LINE"+Model.TrickerStarDataModel.RandToken(),From=from,To=to};
             
             TrickerStarFunctionNodeModel node_from_m = (TrickerStarFunctionNodeModel)m_FunctionNodeModels[line.From.NodeName];
             TrickerStarFunctionNodeModel node_to_m = (TrickerStarFunctionNodeModel)m_FunctionNodeModels[line.To.NodeName];
@@ -53,7 +53,7 @@ namespace FunctionNode
             if (linename == null) return;
             if (m_FunctionLineModels.ContainsKey(linename))
             {
-                Model.TrickerStarLine line = (TrickerStarLine)m_FunctionLineModels[linename];
+                Model.TrickerStarLineModel line = (TrickerStarLineModel)m_FunctionLineModels[linename];
 
 
                 TrickerStarFunctionNodeModel node_from_m = (TrickerStarFunctionNodeModel)m_FunctionNodeModels[line.From.NodeName];
@@ -75,7 +75,7 @@ namespace FunctionNode
             if (linename == null) return;
             if (m_FunctionLineModels.ContainsKey(linename))
             {
-                Model.TrickerStarLine line = (TrickerStarLine)m_FunctionLineModels[linename];
+                Model.TrickerStarLineModel line = (TrickerStarLineModel)m_FunctionLineModels[linename];
             
            
                 TrickerStarFunctionNodeModel node_from_m = (TrickerStarFunctionNodeModel)m_FunctionNodeModels[line.From.NodeName];
@@ -129,6 +129,7 @@ namespace FunctionNode
             TrickerStarFunctionNode node_to_v = (TrickerStarFunctionNode)m_FunctionNodeViews[to.NodeName];
 
             Point Line_from= new Point(node_from_m.Pos.X, node_from_m.Pos.Y), Line_to=new Point(node_to_m.Pos.X, node_to_m.Pos.Y);
+            node_from_v.InvalidateMeasure();
             Line_from.X += node_from_v.ActualWidth;
             Line_from.Y += from.SlotIndex * 48 + 96;
             Line_to.Y += to.SlotIndex * 48 + 96;
