@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Data.Json;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.IO;
 
 namespace FunctionNode.Model
 {
@@ -22,6 +24,32 @@ namespace FunctionNode.Model
             }
             return res;
         }
+        public static Model.TrickerStarSlotType GetSlotTypeFromName(String name)
+        {
+            switch (name)
+            {
+                case "STRING":
+                    return TrickerStarSlotType.STRING;
+                    break;
+                case "INT":
+                    return TrickerStarSlotType.INT;
+                    break;
+                case "DOUBLE":
+                    return TrickerStarSlotType.DOUBLE;
+                    break;
+                case "EXECUTE":
+                    return TrickerStarSlotType.EXECUTE;
+                    break;
+                case "PLACEHOLDER":
+                    return TrickerStarSlotType.PLACEHOLDER;
+                    break;
+
+                default:      
+                    return TrickerStarSlotType.UNDEFINED;
+                    break;
+            }
+
+        }
     }
     [DataContract]
     public enum TrickerStarSlotSide
@@ -30,9 +58,24 @@ namespace FunctionNode.Model
         OUTPUT
     }
     [DataContract]
+    public enum TrickerStarSlotType
+    {
+        DOUBLE,
+        INT,
+        STRING,
+        PLACEHOLDER,
+        EXECUTE,
+        INSTANCE_VALUE,
+        UNDEFINED
+    }
+
+
+
+
+    [DataContract]
     public class TrickerStarNodeSolt {
         [DataMember]
-        public String SlotType;
+        public TrickerStarSlotType SlotType;
         [DataMember]
         public String SlotName;
         [DataMember]
@@ -46,7 +89,7 @@ namespace FunctionNode.Model
         [DataMember]
         public String NodeName;
         [DataMember]
-        public String SlotType;
+        public TrickerStarSlotType SlotType;
         [DataMember]
         public String SlotName;
         [DataMember]
@@ -55,6 +98,8 @@ namespace FunctionNode.Model
         public int SlotIndex;
         [DataMember]
         public String LineName;
+        [DataMember]
+        public String SlotValue;
 
     }
     [DataContract]
@@ -63,7 +108,7 @@ namespace FunctionNode.Model
         [DataMember]
         public String LineName;
         [DataMember]
-        public TrickerStarNodeSoltDetail From, To;
+        public TrickerStarNodeSoltDetail From =new TrickerStarNodeSoltDetail(), To=new TrickerStarNodeSoltDetail();
 
     }
     [DataContract]
@@ -72,6 +117,8 @@ namespace FunctionNode.Model
         [DataMember]
         public String NodeName;
         [DataMember]
+        public String NodeTitle;
+        [DataMember]
         public Point Pos;
         [DataMember]
         public List<TrickerStarNodeSoltDetail> InputSlot = new List<TrickerStarNodeSoltDetail>();
@@ -79,6 +126,131 @@ namespace FunctionNode.Model
         public List<TrickerStarNodeSoltDetail> OutputSlot = new List<TrickerStarNodeSoltDetail>();
     }
 
+    [DataContract]
+    public class TrickerStarFunctionNodeCodeModel
+    {
+        [DataMember]
+        public String NodeName;
+        [DataMember]
+        public String Code;
+        //[DataMember]
+        //public String OriginalCode;
+      
+    }
 
+    [DataContract]
+    public class TrickerStarGroupModel
+    {
+        [DataMember]
+        public String GroupName;
+        [DataMember]
+        public String GroupTitle;
+    }
+    [DataContract]
+    public class TrickerStarNodeGroupModel
+    {
+        [DataMember]
+        public String NodeName;
+        [DataMember]
+        public String GroupName;
+        [DataMember]
+        public String GroupTitle;
+    }
+
+    [DataContract]
+    public class TrickerStarNodeViewSerialize
+    {
+        [DataMember]
+        public List<TrickerStarFunctionNodeModel> Nodes = new List<TrickerStarFunctionNodeModel>();
+        [DataMember]
+        public List<TrickerStarLineModel> Lines = new List<TrickerStarLineModel>();
+        [DataMember]
+        public List<TrickerStarFunctionNodeCodeModel> Codes = new List<TrickerStarFunctionNodeCodeModel>();
+        [DataMember]
+        public List<TrickerStarGroupModel> Groups = new List<TrickerStarGroupModel>();
+        [DataMember]
+        public List<TrickerStarNodeGroupModel> NodeGroups = new List<TrickerStarNodeGroupModel>();
+    }
+
+
+    public class JsonHelper
+
+    {
+
+        public static string ToJson(Object obj, Type type)
+
+        {
+
+
+
+            MemoryStream ms = new MemoryStream();
+
+
+
+            DataContractJsonSerializer seralizer = new DataContractJsonSerializer(type);
+
+
+
+
+
+            seralizer.WriteObject(ms, obj);
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+
+
+            StreamReader sr = new StreamReader(ms);
+
+            string jsonstr = sr.ReadToEnd();
+
+
+
+            //jsonstr = jsonstr.Replace("\"", "\\\"");
+
+
+
+            sr.Close();
+
+            ms.Close();
+
+            return jsonstr;
+
+        }
+
+        public static Object FromJson(String jsonstr, Type type)
+
+        {
+
+
+
+            MemoryStream ms = new MemoryStream(Encoding.Unicode.GetBytes(jsonstr));
+
+
+
+            DataContractJsonSerializer seralizer = new DataContractJsonSerializer(type);
+
+
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+
+
+            Object res = seralizer.ReadObject(ms);
+
+
+
+
+
+            ms.Close();
+
+            return res;
+
+        }
+
+
+
+    }
 
 }
+
+

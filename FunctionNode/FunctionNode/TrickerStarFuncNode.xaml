@@ -28,8 +28,8 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="48"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="8" Background="#FF4600FF"/>
-                    <Button x:Name="C_CLOSE_BUTTON" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="8" Click="C_CLOSE_BUTTON_Click" Background="Red"/>
+                    <Button Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="8" Background="{x:Null}"/>
+                    <Button x:Name="C_CLOSE_BUTTON" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="8" Click="C_CLOSE_BUTTON_Click" Background="{x:Null}" Content="╳" FontSize="24" Foreground="Red"/>
                     <TextBlock  x:Name="C_NODE_NAME"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Node 0x0123456789abcdef</TextBlock>
                 </Grid>
             </Border>

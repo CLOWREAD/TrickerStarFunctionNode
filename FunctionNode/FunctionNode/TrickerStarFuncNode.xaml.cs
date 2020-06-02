@@ -22,10 +22,14 @@ namespace FunctionNode
     {
         public String m_NodeName="MAIN";
         public String m_NodeTitle = "MAIN";
-        public delegate void Delegate_SlotClicked(Model.TrickerStarNodeSoltDetail slot_detaiil);
+        public delegate void Delegate_SlotClicked(Model.TrickerStarNodeSoltDetail slot_detail);
+        public delegate void Delegate_SlotValueChanged(Model.TrickerStarNodeSoltDetail slot_detail);
         public event Delegate_SlotClicked OnSlotClicked ;
         public delegate void Delegate_NodeClose(String name);
         public event Delegate_NodeClose OnNodeClose;
+
+        public event Delegate_SlotValueChanged OnSlotValueChanged;
+
         List<Model.TrickerStarNodeSolt> m_InputSlot = new List<Model.TrickerStarNodeSolt>();
         List<Model.TrickerStarNodeSolt> m_OutputSlot = new List<Model.TrickerStarNodeSolt>();
         public TrickerStarFunctionNode()
@@ -34,7 +38,7 @@ namespace FunctionNode
 
             C_NODE_NAME.Text = m_NodeName;
         }
-        public void AddInpusStack(String type_str,String name_str, bool place_holder = false)
+        public void AddInpusStack(Model.TrickerStarSlotType type_str,String name_str)
         {
             var slot = new Model.TrickerStarNodeSolt() { SlotName = name_str, SlotType = type_str, SlotSide = Model.TrickerStarSlotSide.INPUT, SlotIndex = m_InputSlot.Count };
             m_InputSlot.Add(slot);
@@ -58,10 +62,10 @@ namespace FunctionNode
             Grid slot_grid = new Grid();
             slot_grid.MaxHeight = 48;
             slot_grid.MinHeight = 48;
-            if (place_holder)
+            if (slot.SlotType == Model.TrickerStarSlotType.PLACEHOLDER)
             {
                 C_INPUT_STACK.Children.Add(slot_grid);
-                AddInputLabel(slot, place_holder);
+                AddInputLabel(slot);
                 return;
             }
 
@@ -75,7 +79,7 @@ namespace FunctionNode
             var_type.FontSize = 8;
             var_type.HorizontalAlignment = HorizontalAlignment.Left;
             var_type.VerticalAlignment = VerticalAlignment.Stretch;
-            var_type.Text = type_str;
+            var_type.Text = type_str.ToString();
             var_type.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 255, 255));
             border.Child = var_type;
             border.HorizontalAlignment = HorizontalAlignment.Left;
@@ -107,6 +111,9 @@ namespace FunctionNode
             var_instance_value.Name = name_str;
             var_instance_value.TextWrapping = TextWrapping.Wrap;
             var_instance_value.MaxWidth = 400;
+            var_instance_value.DataContext = slot;
+            var_instance_value.TextChanged += SlotValueTextChanged;
+            var_instance_value.PlaceholderText = name_str;
 
             Border name_border = new Border();
             name_border.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
@@ -117,7 +124,7 @@ namespace FunctionNode
             name_border.MaxWidth = 200;
             
 
-            if (type_str.Equals("INSTANCE_VALUE"))
+            if (type_str==Model.TrickerStarSlotType.INSTANCE_VALUE)
             {
                 name_border.Child = var_instance_value;
             }
@@ -138,16 +145,79 @@ namespace FunctionNode
             slot_grid.DataContext = slot;
             slot_grid.PointerPressed += OnSlotPressed;
 
-            if (type_str.Equals("INSTANCE_VALUE"))
+
+         
+                AddInputLabel(slot);
+            
+        }
+
+        private void SlotValueTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            Model.TrickerStarNodeSolt slot = tb.DataContext as Model.TrickerStarNodeSolt;
+            Model.TrickerStarNodeSoltDetail detail = new Model.TrickerStarNodeSoltDetail()
             {
-                AddInputLabel(slot, true);
-            }
-            else
+                SlotType = slot.SlotType,
+                NodeName = m_NodeName,
+                SlotName = slot.SlotName,
+                SlotIndex = slot.SlotIndex,
+                SlotSide = slot.SlotSide,
+                SlotValue = tb.Text,
+
+            };
+            if (OnSlotValueChanged != null)
             {
-                AddInputLabel(slot, place_holder);
+                OnSlotValueChanged.Invoke(detail);
             }
         }
-        public void AddOutpusStack(String type_str, String name_str,bool place_holder=false)
+
+        public String GetSlotValue(Model.TrickerStarSlotSide side,int slot_index)
+        {
+            String res="";
+            try
+            {
+
+            if(side==Model.TrickerStarSlotSide.INPUT)
+            {
+                var grid=C_INPUT_STACK.Children[slot_index] as Grid;
+                var border = grid.Children[0] as Border;
+                var textbox = border.Child as TextBox;
+                res = textbox.Text;
+            }
+            if (side == Model.TrickerStarSlotSide.OUTPUT)
+            {
+                var grid = C_OUTPUT_STACK.Children[slot_index] as Grid;
+                var border = grid.Children[0] as Border;
+                var textbox = border.Child as TextBox;
+                res = textbox.Text;
+            }
+            }catch(Exception e)
+            {
+
+            }
+            return res;
+        }
+        public void  SetSlotValue(Model.TrickerStarSlotSide side, int slot_index,String value)
+        {
+            if (side == Model.TrickerStarSlotSide.INPUT)
+            {
+                var grid = C_INPUT_STACK.Children[slot_index] as Grid;
+                var border = grid.Children[0] as Border;
+                var textbox = border.Child as TextBox;
+                textbox.Text=value;
+            }
+            if (side == Model.TrickerStarSlotSide.OUTPUT)
+            {
+                var grid = C_OUTPUT_STACK.Children[slot_index] as Grid;
+                var border = grid.Children[0] as Border;
+                var textbox = border.Child as TextBox;
+                textbox.Text = value;
+            }
+        
+         }
+
+
+        public void AddOutpusStack(Model.TrickerStarSlotType type_str, String name_str)
         {
             var slot = new Model.TrickerStarNodeSolt() { SlotName = name_str, SlotType = type_str,SlotSide=Model.TrickerStarSlotSide.OUTPUT,SlotIndex=m_OutputSlot.Count };
             m_OutputSlot.Add(slot);
@@ -171,10 +241,10 @@ namespace FunctionNode
             slot_grid.MaxHeight = 48;
             slot_grid.MinHeight = 48;
 
-            if(place_holder)
+            if(slot.SlotType == Model.TrickerStarSlotType.PLACEHOLDER)
             {
                 C_OUTPUT_STACK.Children.Add(slot_grid);
-                AddOutputLabel(slot, place_holder);
+                AddOutputLabel(slot);
 
                 return;
             }
@@ -190,7 +260,7 @@ namespace FunctionNode
             var_type.FontSize = 8;
             var_type.HorizontalAlignment = HorizontalAlignment.Right;
             var_type.VerticalAlignment = VerticalAlignment.Stretch;
-            var_type.Text = type_str;
+            var_type.Text = type_str.ToString();
             var_type.Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 255, 255, 255));
             border.Child = var_type;
             border.HorizontalAlignment = HorizontalAlignment.Right;
@@ -200,8 +270,7 @@ namespace FunctionNode
             border.BorderBrush = new SolidColorBrush(GetTypeColor(type_str));
             border.BorderThickness = new Thickness(2);
 
-            TextBlock var_name = new TextBlock();
-            
+            TextBlock var_name = new TextBlock();            
             var_name.FontSize = 12;
             var_name.FontWeight = new Windows.UI.Text.FontWeight() { Weight = 700 };
             var_name.HorizontalAlignment = HorizontalAlignment.Center;
@@ -222,6 +291,10 @@ namespace FunctionNode
             var_instance_value.Name = name_str;
             var_instance_value.TextWrapping = TextWrapping.Wrap;
             var_instance_value.MaxWidth = 400;
+            var_instance_value.DataContext = slot;
+            var_instance_value.TextChanged += SlotValueTextChanged;
+            var_instance_value.PlaceholderText = name_str;
+
 
             Border name_border = new Border();
             name_border.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 0, 0));
@@ -230,7 +303,7 @@ namespace FunctionNode
             name_border.Margin = new Thickness(4);
             name_border.CornerRadius = new CornerRadius(4);
             name_border.MaxWidth = 200;
-            if (type_str.Equals("INSTANCE_VALUE"))
+            if (type_str == Model.TrickerStarSlotType.INSTANCE_VALUE)
             {
                 name_border.Child = var_instance_value;
             }
@@ -252,14 +325,10 @@ namespace FunctionNode
             slot_grid.DataContext = slot;
             slot_grid.PointerPressed += OnSlotPressed;
            
-            if (type_str.Equals("INSTANCE_VALUE"))
-            {
-                AddOutputLabel(slot, true);
-            }
-            else
-            {
-                AddOutputLabel(slot, place_holder);
-            }
+            
+            
+                AddOutputLabel(slot);
+            
 
         }
         public void AddInputLabel(Model.TrickerStarNodeSolt slot,bool place_holder = false)
@@ -278,7 +347,7 @@ namespace FunctionNode
             Grid LabelGrid = new Grid();
             LabelGrid.MaxHeight = 48;
             LabelGrid.MinHeight = 48;
-            if (place_holder)
+            if (slot.SlotType == Model.TrickerStarSlotType.PLACEHOLDER)
             {
                 C_INPUT_LABEL_STACK.Children.Add(LabelGrid);
                 return;
@@ -302,7 +371,7 @@ namespace FunctionNode
 
 
         }
-        public void AddOutputLabel(Model.TrickerStarNodeSolt slot, bool place_holder = false)
+        public void AddOutputLabel(Model.TrickerStarNodeSolt slot)
         {
             /*
              <Grid MaxHeight="48" Margin="0,0,0,0" >
@@ -318,7 +387,7 @@ namespace FunctionNode
             Grid LabelGrid = new Grid();
             LabelGrid.MaxHeight = 48;
             LabelGrid.MinHeight = 48;
-            if (place_holder)
+            if (slot.SlotType==Model.TrickerStarSlotType.PLACEHOLDER)
             {
                 C_OUTPUT_LABEL_STACK.Children.Add(LabelGrid);
                 return;
@@ -341,20 +410,20 @@ namespace FunctionNode
             LabelGrid.PointerPressed += OnSlotPressed;
         }
 
-        Windows.UI.Color GetTypeColor(String type_name)
+        Windows.UI.Color GetTypeColor(Model.TrickerStarSlotType type_name)
         {
             switch (type_name)
             {
-                case "string":
+                case Model.TrickerStarSlotType.STRING:
                     return Windows.UI.Color.FromArgb(255, 0, 255, 255);
                     break;
-                case "int":
+                case Model.TrickerStarSlotType.INT:
                     return Windows.UI.Color.FromArgb(255, 255, 128, 128);
                     break;
-                case "double":
+                case Model.TrickerStarSlotType.DOUBLE:
                     return Windows.UI.Color.FromArgb(255, 128, 128, 128);
                     break;
-                case "EXECUTE":
+                case Model.TrickerStarSlotType.EXECUTE:
                     return Windows.UI.Color.FromArgb(255, 240, 64, 220);
                     break;
             }
@@ -362,20 +431,23 @@ namespace FunctionNode
             return Windows.UI.Color.FromArgb(255, 128, 255, 128);
             
         }
-        String GetTypeLabel(String type_name)
+        String GetTypeLabel(Model.TrickerStarSlotType type_name)
         {
             switch (type_name)
             {
-                case "string":
+                case Model.TrickerStarSlotType.STRING:
                     return "◉";
                     break;
-                case "int":
+                case Model.TrickerStarSlotType.INT:
                     return "◉";
                     break;
-                case "double":
+                case Model.TrickerStarSlotType.DOUBLE:
                     return "◉";
                     break;
-                case "EXECUTE":
+                case Model.TrickerStarSlotType.EXECUTE:
+                    return "◈";
+                    break;
+                case Model.TrickerStarSlotType.INSTANCE_VALUE:
                     return "◈";
                     break;
             }
@@ -399,6 +471,7 @@ namespace FunctionNode
                 SlotName = slot.SlotName,
                 SlotIndex = slot.SlotIndex,
                 SlotSide = slot.SlotSide,
+               
 
             };
             if(OnSlotClicked!=null)

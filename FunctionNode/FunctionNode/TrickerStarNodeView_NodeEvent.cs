@@ -116,7 +116,7 @@ namespace FunctionNode
             {
                 if (m_FromSlot != null)
                 {
-                    if (m_FromSlot.SlotType.Equals(slot_detail.SlotType))
+                    if (m_FromSlot.SlotType==(slot_detail.SlotType))
                     {
                         m_ToSlot = slot_detail;
                     }
@@ -131,7 +131,7 @@ namespace FunctionNode
             {
                 if(m_ToSlot!=null)
                 {
-                    if(m_ToSlot.SlotType.Equals(slot_detail.SlotType))
+                    if(m_ToSlot.SlotType==(slot_detail.SlotType))
                     {
                     m_FromSlot = slot_detail;
                     }

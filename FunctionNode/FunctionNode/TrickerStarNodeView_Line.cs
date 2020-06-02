@@ -21,7 +21,15 @@ namespace FunctionNode
         public void  AddLine(Model.TrickerStarNodeSoltDetail from,Model.TrickerStarNodeSoltDetail to)
         {
             Model.TrickerStarLineModel line = new TrickerStarLineModel() { LineName="LINE"+Model.TrickerStarDataModel.RandToken(),From=from,To=to};
-            
+            AddLine(line.LineName, from, to);
+
+
+
+        }
+        public void AddLine(String LineName ,Model.TrickerStarNodeSoltDetail from, Model.TrickerStarNodeSoltDetail to)
+        {
+            Model.TrickerStarLineModel line = new TrickerStarLineModel() { LineName = LineName, From = from, To = to };
+
             TrickerStarFunctionNodeModel node_from_m = (TrickerStarFunctionNodeModel)m_FunctionNodeModels[line.From.NodeName];
             TrickerStarFunctionNodeModel node_to_m = (TrickerStarFunctionNodeModel)m_FunctionNodeModels[line.To.NodeName];
 

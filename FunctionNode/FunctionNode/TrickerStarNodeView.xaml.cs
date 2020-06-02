@@ -47,7 +47,16 @@ namespace FunctionNode
             C_MAIN_CANVAS.Children.Add(m_TempPath);
            
         }
-
+        public void TS_Clear()
+        {
+            C_MAIN_CANVAS.Children.Clear();
+            m_FunctionNodeModels.Clear();
+            m_FunctionLineModels.Clear();
+            m_FunctionNodeViews.Clear();
+            m_FunctionLineViews.Clear();
+            m_SelectedFunctionNodeModels.Clear();
+            m_FromSlot = null; m_ToSlot = null;
+        }
         public void TS_SetCanvasSize(Size size)
         {
             C_MAIN_CANVAS.Width = size.Width;
@@ -69,11 +78,27 @@ namespace FunctionNode
             node_v.PointerMoved += Node_PointerMoved;
             node_v.OnSlotClicked += NODE_OnSlotClicked; 
             node_v.OnNodeClose += NODE_OnNodeClose;
+            node_v.OnSlotValueChanged += NODE_OnSlotValueChanged;
             m_FunctionNodeViews.Add(NodeName, node_v);
             m_FunctionNodeModels.Add(NodeName, node_m);
 
           
         }
+
+        private void NODE_OnSlotValueChanged(TrickerStarNodeSoltDetail slot_detail)
+        {
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[slot_detail.NodeName];
+            if(slot_detail.SlotSide==TrickerStarSlotSide.INPUT)
+            {
+                node_m.InputSlot[slot_detail.SlotIndex].SlotValue = slot_detail.SlotValue;
+            }
+            if (slot_detail.SlotSide == TrickerStarSlotSide.OUTPUT)
+            {
+                node_m.OutputSlot[slot_detail.SlotIndex].SlotValue = slot_detail.SlotValue;
+            }
+            m_FunctionNodeModels[slot_detail.NodeName] = node_m;
+        }
+
         public Model.TrickerStarFunctionNodeModel TS_GetNode(String NodeName)
         {
             Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
@@ -81,10 +106,11 @@ namespace FunctionNode
         }
         public Model.TrickerStarLineModel TS_GetLine(String LineName)
         {
-            Model.TrickerStarLineModel line_m = (Model.TrickerStarLineModel)m_FunctionNodeModels[LineName];
+            if (LineName == null) return null;
+            Model.TrickerStarLineModel line_m = (Model.TrickerStarLineModel)m_FunctionLineModels[LineName];
             return line_m;
         }
-        public void TS_AddLine(String from_node,int from_slot_index,String to_node,int to_slot_index)
+        public void TS_AddLine(String LineName,String from_node,int from_slot_index,String to_node,int to_slot_index)
         {
             if (from_node == null) return;
             if (!m_FunctionNodeModels.ContainsKey(from_node)) return;
@@ -95,7 +121,7 @@ namespace FunctionNode
             Model.TrickerStarFunctionNodeModel to_node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[to_node];
 
 
-            AddLine(from_node_m.OutputSlot[from_slot_index],to_node_m.InputSlot[to_slot_index] );
+            AddLine(LineName,from_node_m.OutputSlot[from_slot_index],to_node_m.InputSlot[to_slot_index] );
         }
 
         public void TS_DeleteLine(String LineName)
@@ -147,6 +173,18 @@ namespace FunctionNode
 
 
         }
+        public void TS_SetNodeTitle(String NodeName,String Title)
+        {
+            if (NodeName == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+
+            node_m.NodeTitle = Title;
+            node_v.SetNodeTitle(Title);
+
+
+        }
         public List<String> TS_GetNodes()
         {
             List<String> list = new List<string>();
@@ -193,7 +231,102 @@ namespace FunctionNode
             node_m.Pos.Y = node_v.Translation.Y;
         }
 
-        public void TS_AddSlot(String NodeName,String typename,String slotname,Model.TrickerStarSlotSide side,bool placeholder=false)
+        public Point TS_GetNodePosition(String NodeName )
+        {
+            if (NodeName == null) return new Point();
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return new Point();
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+            node_m.Pos.X = node_v.Translation.X;
+            node_m.Pos.Y = node_v.Translation.Y;
+            return node_m.Pos;
+
+
+
+        }
+        public Point TS_GetViewCenterPoint()
+        {
+            var vec_offset = new Point( C_MAINSCROLLVIEWER.HorizontalOffset,C_MAINSCROLLVIEWER.VerticalOffset);
+            var vec_size= new Point(C_MAINSCROLLVIEWER.ViewportWidth ,C_MAINSCROLLVIEWER.ViewportHeight);
+            var vec_size_alt = new Point(C_MAINSCROLLVIEWER.ExtentWidth, C_MAINSCROLLVIEWER.ExtentHeight);
+            var zoom = C_MAINSCROLLVIEWER.ZoomFactor;
+
+
+            if(vec_size_alt.X< vec_size.X)
+            {
+                vec_size.X = vec_size_alt.X;
+            }
+            if (vec_size_alt.Y < vec_size.Y)
+            {
+                vec_size.Y = vec_size_alt.Y;
+            }
+
+
+
+            Point res = new Point(0, 0);
+            res.X = vec_offset.X + vec_size.X  / 2 ;
+            res.Y = vec_offset.Y + vec_size.Y  / 2;
+            res.X /= zoom;
+            res.Y /= zoom;
+            return res;
+        }
+        public void TS_SelectNode(String NodeName)
+        {
+            if (NodeName == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+            Canvas.SetZIndex(node_v, 5);
+            m_SelectedFunctionNodeModels[node_m.NodeName] = node_m;
+            node_v.Select(true);
+        }
+        public void TS_UnselectNode(String NodeName)
+        {
+            if (NodeName == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+            Canvas.SetZIndex(node_v, 4);
+            m_SelectedFunctionNodeModels.Remove(node_m.NodeName);
+            node_v.Select(false);
+        }
+        public void TS_UnselectAllNodes()
+        {
+          
+            foreach(String node_name in m_SelectedFunctionNodeModels.Keys)
+            {
+                TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[node_name];
+                
+                Canvas.SetZIndex(node_v, 4);                
+                node_v.Select(false);
+            }
+            m_SelectedFunctionNodeModels.Clear();
+
+
+        }
+        public void TS_FocusNode(String NodeName)
+        {
+            if (NodeName == null) return;
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+
+
+            Point offset = new Point(0, 0);
+            offset.X = node_v.Translation.X - C_MAINSCROLLVIEWER.ActualWidth / 2;
+            offset.Y = node_v.Translation.Y - C_MAINSCROLLVIEWER.ActualHeight / 2;
+            C_MAINSCROLLVIEWER.ChangeView(offset.X, offset.Y, 1);
+
+
+        }
+        public void TS_FocusPos(Point Pos)
+        {
+           
+            C_MAINSCROLLVIEWER.ChangeView(Pos.X - C_MAINSCROLLVIEWER.ActualWidth/2, Pos.Y-C_MAINSCROLLVIEWER.ActualHeight/2,1);
+
+
+        }
+        public void TS_AddSlot(String NodeName, Model.TrickerStarSlotType typename,String slotname,Model.TrickerStarSlotSide side)
         {
             if (NodeName == null) return;
             if (!m_FunctionNodeModels.ContainsKey(NodeName)) return;
@@ -201,7 +334,7 @@ namespace FunctionNode
             TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
             if(side==TrickerStarSlotSide.INPUT)
             {
-                node_v.AddInpusStack(typename, slotname, placeholder);
+                node_v.AddInpusStack(typename, slotname);
                 //node_v.AddInputLabel(typename,placeholder);
                 node_m.InputSlot.Add(new TrickerStarNodeSoltDetail()
                 {
@@ -215,7 +348,7 @@ namespace FunctionNode
             }
             if (side == TrickerStarSlotSide.OUTPUT)
             {
-                node_v.AddOutpusStack(typename, slotname, placeholder);
+                node_v.AddOutpusStack(typename, slotname);
                // node_v.AddOutputLabel(typename,placeholder);
                 node_m.OutputSlot.Add(new TrickerStarNodeSoltDetail()
                 {
@@ -231,7 +364,26 @@ namespace FunctionNode
 
         }
 
+        public String TS_GetSlotValue(String NodeName, int SlotIndex, Model.TrickerStarSlotSide Side)
+        {
+            if (NodeName == null) return "";
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return "";
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
 
+            return node_v.GetSlotValue(Side, SlotIndex);
+        }
+        public void TS_SetSlotValue(String NodeName, int SlotIndex, Model.TrickerStarSlotSide Side,String value)
+        {
+            if (value == null) return;
+            if (NodeName == null) return ;
+            if (!m_FunctionNodeModels.ContainsKey(NodeName)) return ;
+            Model.TrickerStarFunctionNodeModel node_m = (Model.TrickerStarFunctionNodeModel)m_FunctionNodeModels[NodeName];
+            TrickerStarFunctionNode node_v = (TrickerStarFunctionNode)m_FunctionNodeViews[NodeName];
+
+            node_v.SetSlotValue(Side, SlotIndex,value);
+            return;
+        }
 
         private void C_MAIN_CANVAS_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -244,9 +396,14 @@ namespace FunctionNode
             m_OldTranslation.Y = C_MAINSCROLLVIEWER.VerticalOffset;
 
             m_CapturedPointer = e.Pointer;
+            if(m_ShiftPressed==false)
+            {
+                UnselectNodes();
+                m_SelectedFunctionNodeModels.Clear();
+            }
 
-            UnselectNodes();
-            m_SelectedFunctionNodeModels.Clear();
+
+           
 
             m_FromSlot = null; m_ToSlot = null;
             m_TempPath.Visibility = Visibility.Collapsed;
@@ -273,14 +430,8 @@ namespace FunctionNode
 
 
                 m_OldPoint = e.GetCurrentPoint(this).Position;
-
-
-
-
                 m_OldTranslation = t;
-
-
-               
+                             
 
                 C_MAINSCROLLVIEWER.ChangeView(m_OldTranslation.X, m_OldTranslation.Y, C_MAINSCROLLVIEWER.ZoomFactor);
 
