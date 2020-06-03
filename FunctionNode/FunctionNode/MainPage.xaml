@@ -54,23 +54,33 @@
                                     <ColumnDefinition Width="1*"></ColumnDefinition>
                                     <ColumnDefinition Width="48"></ColumnDefinition>
                                     <ColumnDefinition Width="48"></ColumnDefinition>
+                                    <ColumnDefinition Width="48"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                             <TextBlock Text="{x:Bind GroupTitle }" MinWidth="200"></TextBlock>
-                            <Button x:Name="C_SET_GROUP_BUTTON" Content="SET G" Margin="0,0,4,0" Grid.Column="1" Click="C_SET_GROUP_BUTTON_Click"></Button>
-                            <Button x:Name="C_DEL_GROUP_BUTTON" Content="DEL G" Margin="0,0,4,0" Grid.Column="2" Click="C_DEL_GROUP_BUTTON_Click"></Button>
+                                <Button x:Name="C_SET_GROUP_BUTTON" Content="SET G" Margin="0,0,4,0" Grid.Column="1" Click="C_SET_GROUP_BUTTON_Click"></Button>
+                                <Button x:Name="C_UNSET_GROUP_BUTTON" Content="UNSET G" Margin="0,0,4,0" Grid.Column="2" Click="C_UNSET_GROUP_BUTTON_Click"></Button>
+                                <Button x:Name="C_DEL_GROUP_BUTTON" Content="DEL G" Margin="0,0,4,0" Grid.Column="3" Click="C_DEL_GROUP_BUTTON_Click"></Button>
                         </Grid>
                     </DataTemplate>
                     </ListView.ItemTemplate>
 
                 </ListView>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
-                    <TextBox x:Name="C_GROUP_NAME_TEXTBOX" MinWidth="200" ></TextBox>
+                    <TextBox x:Name="C_GROUP_NAME_TEXTBOX" MinWidth="200" Margin="0,0,4,0" ></TextBox>
                     <Button x:Name="C_ADD_GROUP_BUTTON" Content="ADD GROUP" VerticalAlignment="Stretch" Click="C_ADD_GROUP_BUTTON_Click"></Button>
                 </StackPanel>
             </Grid>
 
         </Grid>
-        <Button x:Name="C_ADD_NODE_BUTTON" Content="ADDNODE" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Background="White" Click="C_ADD_NODE_BUTTON_Click" HorizontalAlignment="Left"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            
+            <Button x:Name="C_ADD_NODE_BUTTON" Content="ADDNODE"  VerticalAlignment="Stretch" Background="White" Click="C_ADD_NODE_BUTTON_Click" HorizontalAlignment="Left" Margin="0,0,8,0"/>
+            <Button x:Name="C_ADD_PRESET_BUTTON" Content="ADD PRESET"  VerticalAlignment="Stretch" Background="White" Click="C_ADD_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="0,0,8,0"/>
+            <Button x:Name="C_SAVE_PRESET_BUTTON" Content="SAVE PRESET"  VerticalAlignment="Stretch" Background="White" Click="C_SAVE_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="0,0,8,0"/>
+            <Button x:Name="C_LOAD_PRESET_BUTTON" Content="LOAD PRESET"  VerticalAlignment="Stretch" Background="White" Click="C_LOAD_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="0,0,8,0"/>
+
+
+        </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -83,6 +93,7 @@
             <Button x:Name="C_SAVE_BUTTON" Content="SAVE"  Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="C_SAVE_BUTTON_Click" Background="#FFFFD100"/>
             <Button x:Name="C_LOAD_BUTTON" Content="LOAD"  Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="C_LOAD_BUTTON_Click"  Grid.Column="1" Background="#FF00FFB9"/>
             <Button x:Name="C_GEN_BUTTON" Content="GEN"  Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   Grid.Column="2" Click="C_GEN_BUTTON_Click" Background="#FF5F75FF"/>
+            <Button x:Name="C_CLEAR_BUTTON" Content="CLR"  Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   Grid.Column="3" Click="C_CLEAR_BUTTON_Click" Background="#FF44B3FF"/>
 
         </Grid>
     </Grid>

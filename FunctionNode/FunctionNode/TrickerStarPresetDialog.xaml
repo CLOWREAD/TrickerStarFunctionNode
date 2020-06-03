@@ -1,0 +1,53 @@
+﻿<ContentDialog
+    x:Class="FunctionNode.TrickerStarPresetDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FunctionNode"
+    xmlns:local_model="using:FunctionNode.Model"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="PRESET"
+    Padding="0"
+    Margin="0" FullSizeDesired="True" Width="1500"
+    
+    >
+
+    <Grid HorizontalAlignment="Stretch" UseLayoutRounding="True" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="48"/>
+        </Grid.RowDefinitions>
+        <ListView 
+              
+               ItemClick="C_NODE_PRESET_LIST_ItemClick"
+                x:Name="C_NODE_PRESET_LIST" 
+                CanDrag="True"
+                CanDragItems="True" 
+                CanReorderItems="True"
+                AllowDrop="True" 
+                DragItemsCompleted="C_NODE_PRESET_LIST_DragItemsCompleted"
+                IsItemClickEnabled="True"
+                SelectionMode="Single" Grid.RowSpan="2" Background="#FFAA6FFF">
+
+            <ListView.ItemTemplate>
+                <DataTemplate  x:DataType="local_model:TrickerStarPresetCodeModel">
+
+                    <Grid  HorizontalAlignment="Stretch" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="48"></ColumnDefinition>
+                            <ColumnDefinition Width="48"></ColumnDefinition>
+                            <ColumnDefinition Width="48"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{x:Bind NodeName }" MinWidth="200"></TextBlock>
+                        <Button x:Name="DEL_BUTTON" Content="DEL" Margin="0,0,4,0" Grid.Column="1" Click="DEL_BUTTON_Click"></Button>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+        <Button x:Name="C_CANCELBUTTON" Click="C_CANCELBUTTON_Click" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Background="#FF00FF23"></Button>
+    </Grid>
+</ContentDialog>

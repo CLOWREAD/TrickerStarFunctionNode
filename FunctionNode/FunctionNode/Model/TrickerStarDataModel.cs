@@ -43,7 +43,9 @@ namespace FunctionNode.Model
                 case "PLACEHOLDER":
                     return TrickerStarSlotType.PLACEHOLDER;
                     break;
-
+                case "INSTANCE_VALUE":
+                    return TrickerStarSlotType.INSTANCE_VALUE;
+                    break;
                 default:      
                     return TrickerStarSlotType.UNDEFINED;
                     break;
@@ -133,11 +135,18 @@ namespace FunctionNode.Model
         public String NodeName;
         [DataMember]
         public String Code;
-        //[DataMember]
-        //public String OriginalCode;
+      
       
     }
+    [DataContract]
+    public class TrickerStarPresetCodeModel
+    {
+        [DataMember]
+        public String NodeName;
+        [DataMember]
+        public String OriginalCode;
 
+    }
     [DataContract]
     public class TrickerStarGroupModel
     {
@@ -171,7 +180,12 @@ namespace FunctionNode.Model
         [DataMember]
         public List<TrickerStarNodeGroupModel> NodeGroups = new List<TrickerStarNodeGroupModel>();
     }
-
+    [DataContract]
+    public class TrickerStarPresetSerialize
+    {
+        [DataMember]
+        public List<TrickerStarPresetCodeModel> PresetCodes = new List<TrickerStarPresetCodeModel>();
+    }
 
     public class JsonHelper
 

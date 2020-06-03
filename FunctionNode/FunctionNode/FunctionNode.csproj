@@ -120,11 +120,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PagePartial\MainPage_Preset.xaml.cs" />
+    <Compile Include="PagePartial\MainPage_Dispatcher.xaml.cs" />
+    <Compile Include="PagePartial\MainPage_EventHandler.xaml.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TrickerStarPresetDialog.xaml.cs">
+      <DependentUpon>TrickerStarPresetDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SlotPathFactory.cs" />
+    <Compile Include="PagePartial\SlotPathFactory.cs" />
     <Compile Include="Model\TrickerStarDataModel.cs" />
     <Compile Include="TrickerStarFuncNode.xaml.cs">
       <DependentUpon>TrickerStarFuncNode.xaml</DependentUpon>
@@ -132,8 +138,8 @@
     <Compile Include="TrickerStarNodeView.xaml.cs">
       <DependentUpon>TrickerStarNodeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TrickerStarNodeView_Line.cs" />
-    <Compile Include="TrickerStarNodeView_NodeEvent.cs" />
+    <Compile Include="PagePartial\TrickerStarNodeView_Line.cs" />
+    <Compile Include="PagePartial\TrickerStarNodeView_NodeEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -158,6 +164,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TrickerStarPresetDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TrickerStarFuncNode.xaml">
       <SubType>Designer</SubType>
