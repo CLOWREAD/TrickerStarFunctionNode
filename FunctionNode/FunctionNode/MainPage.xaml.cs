@@ -38,14 +38,31 @@ namespace FunctionNode
         {
             this.InitializeComponent();
             this.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-            
+
+
+            var coreTitleBar = Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+
+            var appTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+            appTitleBar.ButtonBackgroundColor = Windows.UI.Colors.Transparent;
+            appTitleBar.ButtonForegroundColor = Windows.UI.Colors.White;
+           
+
+            Window.Current.SetTitleBar(C_TITLEBAR);
 
             C_NODE_GROUP_LIST.ItemsSource = m_GroupList;
             m_PresetDlg.OnPresetSelected += M_PresetDlg_OnPresetSelected;
             m_PresetDlg.Closed += M_PresetDlg_Closed;
         }
 
+        private void CoreTitleBar_LayoutMetricsChanged(Windows.ApplicationModel.Core.CoreApplicationViewTitleBar sender, object args)
 
+        {
+
+            C_TITLEBAR.Height = sender.Height;
+            C_MAIN_GRID.RowDefinitions[0].Height = new GridLength(sender.Height);
+        }
     }
     
 }

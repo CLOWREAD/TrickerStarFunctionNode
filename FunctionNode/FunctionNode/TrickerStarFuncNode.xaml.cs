@@ -331,7 +331,7 @@ namespace FunctionNode
             
 
         }
-        public void AddInputLabel(Model.TrickerStarNodeSolt slot,bool place_holder = false)
+        public void AddInputLabel(Model.TrickerStarNodeSolt slot)
         {
             /*
              <Grid MaxHeight="48" Margin="0,0,0,0" >
@@ -420,6 +420,9 @@ namespace FunctionNode
                 case Model.TrickerStarSlotType.INT:
                     return Windows.UI.Color.FromArgb(255, 255, 128, 128);
                     break;
+                case Model.TrickerStarSlotType.STRUCTURE:
+                    return Windows.UI.Color.FromArgb(255, 255, 128, 128);
+                    break;
                 case Model.TrickerStarSlotType.DOUBLE:
                     return Windows.UI.Color.FromArgb(255, 128, 128, 128);
                     break;
@@ -442,6 +445,9 @@ namespace FunctionNode
                     return "◉";
                     break;
                 case Model.TrickerStarSlotType.DOUBLE:
+                    return "◉";
+                    break;
+                case Model.TrickerStarSlotType.STRUCTURE:
                     return "◉";
                     break;
                 case Model.TrickerStarSlotType.EXECUTE:

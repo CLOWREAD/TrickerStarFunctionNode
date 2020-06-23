@@ -7,33 +7,63 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="LightGray">
+    <Page.Resources>
 
-    <Grid Background="#FF8D0909">
+    </Page.Resources>
+    <Grid x:Name="C_MAIN_GRID" Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="18*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="380" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition  Height="64"/>
             <RowDefinition Height="4*"/>
             <RowDefinition  Height="64"/>
         </Grid.RowDefinitions>
 
-        <local:TrickerStarNodeView x:Name="C_MAIN_NODE_VIEW" Grid.RowSpan="1" Grid.ColumnSpan="1" ></local:TrickerStarNodeView>
-        <Grid Grid.Column="1">
+        <Grid x:Name="C_TITLEBAR" Grid.ColumnSpan="3" Background="Black" >
+            
+        </Grid>
+        
+        <Border Padding="6,6,6,6" CornerRadius="16,16,16,16" Grid.Row="1" Margin="4">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
+                    <GradientStop Color="#FF9154EA" Offset="0"/>
+                    <GradientStop Color="#FFF1F153" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <local:TrickerStarNodeView x:Name="C_MAIN_NODE_VIEW"   CornerRadius="16" Grid.RowSpan="1" Grid.ColumnSpan="1" ></local:TrickerStarNodeView>
+        </Border>
+        <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <TextBox x:Name="C_MAIN_CODE_TEXT" Text="" TextWrapping="Wrap" FocusVisualSecondaryBrush="#992AECFF" Foreground="Black" Background="#F9FFFFFF" AcceptsReturn="True" Grid.RowSpan="1"/>
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="48"/>
-                    <RowDefinition Height="48"/>
-                </Grid.RowDefinitions>
+            <Border Padding="6,6,6,6" CornerRadius="16,16,16,16" Margin="0,0,0,4">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
+                        <GradientStop Color="#FFD6EA54" Offset="0"/>
+                        <GradientStop Color="#FF6953F1" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <TextBox x:Name="C_MAIN_CODE_TEXT" Text="" TextWrapping="Wrap" FocusVisualSecondaryBrush="#992AECFF" Foreground="#FF00FF0C" Background="#F91B1B1B" AcceptsReturn="True" Grid.RowSpan="1" FontWeight="Bold" SelectionHighlightColorWhenNotFocused="Black" BorderBrush="Black" PlaceholderForeground="#FFE00404" CornerRadius="12,12,12,12"/>
+            </Border>
+            <Border Padding="6,6,6,6" CornerRadius="16,16,16,16" Grid.Row="2" Margin="0,4,0,0">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0,0" StartPoint="1,1">
+                        <GradientStop Color="#FF549FEA" Offset="0"/>
+                        <GradientStop Color="#FF53F1B1" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Grid Grid.Row="1" CornerRadius="12,12,12,12" Background="Black">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="48"/>
+                    </Grid.RowDefinitions>
 
-                <ListView 
+                    <ListView 
                 DragItemsCompleted="C_NODE_GROUP_LIST_DragItemsCompleted"
                 DragItemsStarting="C_NODE_GROUP_LIST_DragItemsStarting"
                
@@ -44,44 +74,123 @@
                 AllowDrop="True" 
                 ItemClick="C_NODE_GROUP_LIST_ItemClick"
                 IsItemClickEnabled="True"
-                SelectionMode="Single" Grid.RowSpan="3" Background="#FFAA6FFF">
+                SelectionMode="Single" Background="Black">
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate  x:DataType="local_model:TrickerStarGroupModel">
+                        <ListView.ItemTemplate>
+                            <DataTemplate  x:DataType="local_model:TrickerStarGroupModel">
 
-                        <Grid  HorizontalAlignment="Stretch" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                                    <ColumnDefinition Width="48"></ColumnDefinition>
-                                    <ColumnDefinition Width="48"></ColumnDefinition>
-                                    <ColumnDefinition Width="48"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                            <TextBlock Text="{x:Bind GroupTitle }" MinWidth="200"></TextBlock>
-                                <Button x:Name="C_SET_GROUP_BUTTON" Content="SET G" Margin="0,0,4,0" Grid.Column="1" Click="C_SET_GROUP_BUTTON_Click"></Button>
-                                <Button x:Name="C_UNSET_GROUP_BUTTON" Content="UNSET G" Margin="0,0,4,0" Grid.Column="2" Click="C_UNSET_GROUP_BUTTON_Click"></Button>
-                                <Button x:Name="C_DEL_GROUP_BUTTON" Content="DEL G" Margin="0,0,4,0" Grid.Column="3" Click="C_DEL_GROUP_BUTTON_Click"></Button>
-                        </Grid>
-                    </DataTemplate>
-                    </ListView.ItemTemplate>
+                                <Grid  HorizontalAlignment="Stretch" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                        <ColumnDefinition Width="64"></ColumnDefinition>
+                                        <ColumnDefinition Width="64"></ColumnDefinition>
+                                        <ColumnDefinition Width="64"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind GroupTitle }" MinWidth="200" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Stretch"></TextBlock>
+                                    <Button x:Name="C_SET_GROUP_BUTTON" Content="SET G"  CornerRadius="16,16,16,16" Margin="0,0,4,0" Grid.Column="1" Click="C_SET_GROUP_BUTTON_Click">
+                                        <Button.Resources>
+                                            <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                                            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFA7F500"/>
+                                            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FFA7F500"/>
+                                        </Button.Resources>
+                                    </Button>
+                                    <Button x:Name="C_UNSET_GROUP_BUTTON" Content="UNSET G"  CornerRadius="16,16,16,16" Margin="0,0,4,0" Grid.Column="2" Click="C_UNSET_GROUP_BUTTON_Click">
+                                        <Button.Resources>
+                                            <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                                            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFA7F500"/>
+                                            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FFA7F500"/>
+                                        </Button.Resources>
+                                    </Button>
+                                    <Button x:Name="C_DEL_GROUP_BUTTON" Content="DEL G"  CornerRadius="16,16,16,16" Margin="0,0,4,0" Grid.Column="3" Click="C_DEL_GROUP_BUTTON_Click">
+                                        <Button.Resources>
+                                            <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                                            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFA7F500"/>
+                                            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                                            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FFA7F500"/>
+                                        </Button.Resources>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
 
-                </ListView>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
-                    <TextBox x:Name="C_GROUP_NAME_TEXTBOX" MinWidth="200" Margin="0,0,4,0" ></TextBox>
-                    <Button x:Name="C_ADD_GROUP_BUTTON" Content="ADD GROUP" VerticalAlignment="Stretch" Click="C_ADD_GROUP_BUTTON_Click"></Button>
-                </StackPanel>
-            </Grid>
+                    </ListView>
+                    <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="C_GROUP_NAME_TEXTBOX" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="4,0,4,0" CornerRadius="16,16,16,16" BorderThickness="0,0,0,0"  />
+                        <Button x:Name="C_ADD_GROUP_BUTTON" Content="ADD GROUP" VerticalAlignment="Stretch" Click="C_ADD_GROUP_BUTTON_Click" Grid.Column="1" HorizontalAlignment="Center" Background="Black" CornerRadius="16,16,16,16" FocusVisualPrimaryBrush="Red" BorderBrush="#FFA7F500">
+                            <Button.Resources>
+                                <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                                <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFA7F500"/>
+                                <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FFA7F500"/>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
 
         </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-            
-            <Button x:Name="C_ADD_NODE_BUTTON" Content="ADDNODE"  VerticalAlignment="Stretch" Background="White" Click="C_ADD_NODE_BUTTON_Click" HorizontalAlignment="Left" Margin="0,0,8,0"/>
-            <Button x:Name="C_ADD_PRESET_BUTTON" Content="ADD PRESET"  VerticalAlignment="Stretch" Background="White" Click="C_ADD_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="0,0,8,0"/>
-            <Button x:Name="C_SAVE_PRESET_BUTTON" Content="SAVE PRESET"  VerticalAlignment="Stretch" Background="White" Click="C_SAVE_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="0,0,8,0"/>
-            <Button x:Name="C_LOAD_PRESET_BUTTON" Content="LOAD PRESET"  VerticalAlignment="Stretch" Background="White" Click="C_LOAD_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="0,0,8,0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HighContrastAdjustment="Auto">
+
+            <Button x:Name="C_ADD_NODE_BUTTON"  Content="ADD NODE" VerticalAlignment="Stretch" Click="C_ADD_NODE_BUTTON_Click" HorizontalAlignment="Left" Margin="4,4,4,4" FocusVisualPrimaryBrush="#FF80D48B" Background="Black" Foreground="White" BorderBrush="#FF00B9FF" CornerRadius="16,16,16,16" >
+                <Button.Resources>
+                    <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FF00B9FF"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FF00B9FF"/>
+                </Button.Resources>
+            </Button>
+
+            <Button x:Name="C_ADD_PRESET_BUTTON" Content="ADD PRESET"  VerticalAlignment="Stretch" Background="Black" Click="C_ADD_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="4,4,4,4" FocusVisualPrimaryBrush="#FF08B920" Foreground="White" BorderBrush="#FF29E274" CornerRadius="16,16,16,16">
+                <Button.Resources>
+                    <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FF29E274"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FF29E274"/>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="C_SAVE_PRESET_BUTTON" Content="S PRESET"  VerticalAlignment="Stretch" Background="Black" Click="C_SAVE_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="4,4,4,4" FocusVisualPrimaryBrush="#FF09D825" Foreground="White" BorderBrush="#FFF35339" CornerRadius="16,16,16,16">
+                <Button.Resources>
+                    <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFF35339"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FFF35339"/>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="C_LOAD_PRESET_BUTTON" Content="L PRESET"  VerticalAlignment="Stretch"  Click="C_LOAD_PRESET_BUTTON_Click"  HorizontalAlignment="Left" Margin="4,4,4,4"  CornerRadius="16,16,16,16" Background="Black" BorderBrush="#FF97FF00" >
+                <Button.Resources>
+                    <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FF97FF00"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#BF00FF2E"/>
+                </Button.Resources>
+            </Button>
 
 
         </StackPanel>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>

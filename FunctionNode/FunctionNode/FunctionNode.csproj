@@ -120,6 +120,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PagePartial\MainPage_Serialize.xaml.cs" />
+    <Compile Include="PagePartial\MainPage_GenCode.xaml.cs" />
     <Compile Include="PagePartial\MainPage_Preset.xaml.cs" />
     <Compile Include="PagePartial\MainPage_Dispatcher.xaml.cs" />
     <Compile Include="PagePartial\MainPage_EventHandler.xaml.cs" />

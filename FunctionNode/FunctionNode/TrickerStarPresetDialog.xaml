@@ -9,11 +9,11 @@
     mc:Ignorable="d"
     Title="PRESET"
     Padding="0"
-    Margin="0" FullSizeDesired="True" Width="1500"
+    Margin="0" FullSizeDesired="True" Width="15000"
     
     >
 
-    <Grid HorizontalAlignment="Stretch" UseLayoutRounding="True" >
+    <Grid HorizontalAlignment="Stretch" UseLayoutRounding="True"  Width="800">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="48"/>

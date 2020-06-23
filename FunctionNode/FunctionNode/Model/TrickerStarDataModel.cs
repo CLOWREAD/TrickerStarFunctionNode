@@ -37,6 +37,9 @@ namespace FunctionNode.Model
                 case "DOUBLE":
                     return TrickerStarSlotType.DOUBLE;
                     break;
+                case "STRUCTURE":
+                    return TrickerStarSlotType.STRUCTURE;
+                    break;
                 case "EXECUTE":
                     return TrickerStarSlotType.EXECUTE;
                     break;
@@ -68,10 +71,11 @@ namespace FunctionNode.Model
         PLACEHOLDER,
         EXECUTE,
         INSTANCE_VALUE,
+        STRUCTURE,
         UNDEFINED
     }
 
-
+    
 
 
     [DataContract]
@@ -249,7 +253,7 @@ namespace FunctionNode.Model
 
 
 
-            Object res = seralizer.ReadObject(ms);
+        Object res = seralizer.ReadObject(ms);
 
 
 
