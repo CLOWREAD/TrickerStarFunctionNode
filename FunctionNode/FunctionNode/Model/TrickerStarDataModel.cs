@@ -31,13 +31,31 @@ namespace FunctionNode.Model
                 case "STRING":
                     return TrickerStarSlotType.STRING;
                     break;
+                case "string":
+                    return TrickerStarSlotType.STRING;
+                    break;
+                case "BOOL":
+                    return TrickerStarSlotType.BOOL;
+                    break;
+                case "bool":
+                    return TrickerStarSlotType.BOOL;
+                    break;
                 case "INT":
+                    return TrickerStarSlotType.INT;
+                    break;
+                case "int":
                     return TrickerStarSlotType.INT;
                     break;
                 case "DOUBLE":
                     return TrickerStarSlotType.DOUBLE;
                     break;
+                case "double":
+                    return TrickerStarSlotType.DOUBLE;
+                    break;
                 case "STRUCTURE":
+                    return TrickerStarSlotType.STRUCTURE;
+                    break;
+                case "structure":
                     return TrickerStarSlotType.STRUCTURE;
                     break;
                 case "EXECUTE":
@@ -66,6 +84,7 @@ namespace FunctionNode.Model
     public enum TrickerStarSlotType
     {
         DOUBLE,
+        BOOL,
         INT,
         STRING,
         PLACEHOLDER,

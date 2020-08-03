@@ -1,6 +1,6 @@
 @TEST
 INPUT RUN : EXECUTE
-INPUT V : string
+INPUT V : STRING
 OUTPUT INVOKE : EXECUTE 
 -------------------
 public dynamic @TRICKER_STAR_FUNCTIONNAME (dynamic param)
@@ -8,12 +8,12 @@ public dynamic @TRICKER_STAR_FUNCTIONNAME (dynamic param)
 
 System.Collections.Generic.Dictionary<String, Object> GLOBAL_OUTPUT = param.GLOBAL_OUTPUT;
 
-TRICKER_STAR_INPUT(V)
+TRICKER_STAR_INPUT(V);
+
+Console.Write(V);
 
 dynamic d=new System.Dynamic.ExpandoObject();
-d.FUNCTIONNAMETOINVOKE=TRICKER_STAR_INVOKE(INVOKE);
-
-
+d.FUNCTIONNAMETOINVOKE="TRICKER_STAR_INVOKE(INVOKE)";
 
 return d;
 }
@@ -28,7 +28,7 @@ public void TRICKER_STAR_INSTANCE_VALUE(API_NAME) (dynamic param)
 {
             System.Collections.Generic.Dictionary<String, Object> result = new Dictionary<string, object>();
             var this_type = this.GetType();
-            String F_Name_invoking = TRICKER_STAR_INVOKE(INVOKE);
+            String F_Name_invoking = "TRICKER_STAR_INVOKE(INVOKE)";
             var method=this_type.GetMethod(F_Name_invoking);
             dynamic d = new System.Dynamic.ExpandoObject();
 
@@ -44,6 +44,7 @@ public void TRICKER_STAR_INSTANCE_VALUE(API_NAME) (dynamic param)
                  } 
                 F_Name_invoking = invoke_res.FUNCTIONNAMETOINVOKE;
                 method = this_type.GetMethod(F_Name_invoking);
+                if (method == null) return;
             }
 }
 
@@ -53,17 +54,17 @@ public void TRICKER_STAR_INSTANCE_VALUE(API_NAME) (dynamic param)
 INPUT RUN : EXECUTE
 INPUT V : INSTANCE_VALUE
 OUTPUT INVOKE : EXECUTE 
-OUTPUT V :  string
+OUTPUT V :  STRING
 -------------------
 public dynamic @TRICKER_STAR_FUNCTIONNAME (dynamic param)
 {
-  String V=  "TRICKER_STAR_INSTANCE_VALUE(V)"
+  String V=  "TRICKER_STAR_INSTANCE_VALUE(V)";
 System.Collections.Generic.Dictionary<String, Object> GLOBAL_OUTPUT = param.GLOBAL_OUTPUT;
 
-Console.Write(V);
+
 
 dynamic d=new System.Dynamic.ExpandoObject();
-d.FUNCTIONNAMETOINVOKE=TRICKER_STAR_INVOKE(INVOKE);
+d.FUNCTIONNAMETOINVOKE="TRICKER_STAR_INVOKE(INVOKE)";
 d.V=V.ToString();
 
 return d;

@@ -7,20 +7,44 @@ namespace GenTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+          
             Test t = new Test();
-            t.API_MAIN(null);
+
+            var a = DateTime.Now;
+
+            for (int i= 0;i<128000;i++)
+            {
+                Console.Write("HELLO");
+                //t.API_MAIN(null);
+            }
+            var b = DateTime.Now;
+            var a_utc = a.ToFileTimeUtc();
+            var b_utc = b.ToFileTimeUtc();
+            Console.WriteLine("{0}",b_utc-a_utc);
         }
 
 
     }
     class Test
     {
+        public dynamic NODEF89B9A17AB067A623D3F02B19BDE1A8B(dynamic param)
+        {
+            String V = "HELLO";
+    System.Collections.Generic.Dictionary<String, Object> GLOBAL_OUTPUT = param.GLOBAL_OUTPUT;
+
+
+
+            dynamic d = new System.Dynamic.ExpandoObject();
+            d.FUNCTIONNAMETOINVOKE = "NODEA73FA1AFE7B6DB2724FAB8904D670723";
+            d.V = V.ToString();
+
+            return d;
+        }
         public void API_MAIN(dynamic param)
         {
             System.Collections.Generic.Dictionary<String, Object> result = new Dictionary<string, object>();
             var this_type = this.GetType();
-            String F_Name_invoking = "NODE94A187D68CF7645C4064DFDCDDEE4683"; ;
+            String F_Name_invoking = "NODEF89B9A17AB067A623D3F02B19BDE1A8B";
             var method = this_type.GetMethod(F_Name_invoking);
             dynamic d = new System.Dynamic.ExpandoObject();
 
@@ -36,36 +60,24 @@ namespace GenTest
                 }
                 F_Name_invoking = invoke_res.FUNCTIONNAMETOINVOKE;
                 method = this_type.GetMethod(F_Name_invoking);
+                if (method == null) return;
             }
         }
-        public dynamic NODE94A187D68CF7645C4064DFDCDDEE4683(dynamic param)
-        {
-            String V = "HELLO WORLD"
-        System.Collections.Generic.Dictionary<String, Object> GLOBAL_OUTPUT = param.GLOBAL_OUTPUT;
 
-            Console.Write(V);
-
-            dynamic d = new System.Dynamic.ExpandoObject();
-            d.FUNCTIONNAMETOINVOKE = "NODE0446E88790D1E5C92E7E798DE582970B"; ;
-            d.V = V.ToString();
-
-            return d;
-        }
-        public dynamic NODE0446E88790D1E5C92E7E798DE582970B(dynamic param)
+        public dynamic NODEA73FA1AFE7B6DB2724FAB8904D670723(dynamic param)
         {
 
             System.Collections.Generic.Dictionary<String, Object> GLOBAL_OUTPUT = param.GLOBAL_OUTPUT;
 
-            object V = null;
+            object V = null; if (GLOBAL_OUTPUT.ContainsKey("NODEF89B9A17AB067A623D3F02B19BDE1A8B")) { try { V = ((dynamic)GLOBAL_OUTPUT["NODEF89B9A17AB067A623D3F02B19BDE1A8B"]).V; } catch (Exception e) { } };
+
+            Console.Write(V);
 
             dynamic d = new System.Dynamic.ExpandoObject();
-            d.FUNCTIONNAMETOINVOKE = null;
-
-
+            d.FUNCTIONNAMETOINVOKE = "null";
 
             return d;
         }
-
 
 
 

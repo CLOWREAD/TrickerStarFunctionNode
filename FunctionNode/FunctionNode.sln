@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionNode", "FunctionNode\FunctionNode.csproj", "{7B204FCA-E7E5-4352-B909-3105DCAA65E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenTest", "GenTest\GenTest.csproj", "{304FEB40-4CBD-414A-BBE1-3425DE09B475}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenTest", "GenTest\GenTest.csproj", "{304FEB40-4CBD-414A-BBE1-3425DE09B475}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PyGenTest", "PyGenTest\PyGenTest.pyproj", "{AD4D5713-7B2E-482B-9325-F092BA931F02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,16 @@ Global
 		{304FEB40-4CBD-414A-BBE1-3425DE09B475}.Release|x64.Build.0 = Release|Any CPU
 		{304FEB40-4CBD-414A-BBE1-3425DE09B475}.Release|x86.ActiveCfg = Release|Any CPU
 		{304FEB40-4CBD-414A-BBE1-3425DE09B475}.Release|x86.Build.0 = Release|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Release|ARM.ActiveCfg = Release|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Release|x64.ActiveCfg = Release|Any CPU
+		{AD4D5713-7B2E-482B-9325-F092BA931F02}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

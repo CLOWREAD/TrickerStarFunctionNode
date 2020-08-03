@@ -39,16 +39,15 @@ namespace FunctionNode
                     if (slot_i.SlotType == Model.TrickerStarSlotType.INSTANCE_VALUE)
                     {
                         String var_to_be_replaced = String.Format("TRICKER_STAR_INSTANCE_VALUE({0})", slot_i.SlotName);
-                        String var_to_replace = String.Format("{0}",
-                            slot_i.SlotValue);
-                        // object { 0} = null; if (GLOBAL_OUTPUT.ContainsKey(\"{1}\")){{ try{{ {0}=((dynamic)GLOBAL_OUTPUT[\"{1}\"]).{2}; }}catch(Exception e){{}}   }}", i_name, o_label + "_" + o_name, o_slot);
+                        String var_to_replace = String.Format("{0}", slot_i.SlotValue);
                         code = code.Replace(var_to_be_replaced, var_to_replace);
                     }
                     if (slot_i.SlotType == Model.TrickerStarSlotType.PLACEHOLDER)
                     {
 
                     }
-                    if (slot_i.SlotType == Model.TrickerStarSlotType.UNDEFINED || 
+                    if (slot_i.SlotType == Model.TrickerStarSlotType.UNDEFINED ||
+                        slot_i.SlotType == Model.TrickerStarSlotType.BOOL ||
                         slot_i.SlotType == Model.TrickerStarSlotType.STRING ||
                         slot_i.SlotType == Model.TrickerStarSlotType.INT || 
                         slot_i.SlotType == Model.TrickerStarSlotType.DOUBLE||
@@ -66,6 +65,31 @@ namespace FunctionNode
                         else
                         {
                             String var_to_replace = String.Format("object {0} = null;", slot_i.SlotName);
+                            code = code.Replace(var_to_be_replaced, var_to_replace);
+                        }
+
+                        var_to_be_replaced = String.Format("TRICKER_STAR_LINKED_SLOT({0})", slot_i.SlotName);
+                        if (line != null)
+                        {
+                            String var_to_replace = String.Format("{0}",
+                            line.From.SlotName);
+                            code = code.Replace(var_to_be_replaced, var_to_replace);
+                        }
+                        else
+                        {
+                            String var_to_replace = String.Format("");
+                            code = code.Replace(var_to_be_replaced, var_to_replace);
+                        }
+                        var_to_be_replaced = String.Format("TRICKER_STAR_LINKED_NODE({0})", slot_i.SlotName);
+                        if (line != null)
+                        {
+                            String var_to_replace = String.Format("{0}",
+                            line.From.NodeName);
+                            code = code.Replace(var_to_be_replaced, var_to_replace);
+                        }
+                        else
+                        {
+                            String var_to_replace = String.Format("");
                             code = code.Replace(var_to_be_replaced, var_to_replace);
                         }
 

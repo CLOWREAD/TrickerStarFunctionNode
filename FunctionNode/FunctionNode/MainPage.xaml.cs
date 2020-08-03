@@ -29,10 +29,14 @@ namespace FunctionNode
         TrickerStarPresetDialog m_PresetDlg = new TrickerStarPresetDialog();
         List<Model.TrickerStarPresetCodeModel> m_PresetList = new List<Model.TrickerStarPresetCodeModel>();
         List<Model.TrickerStarGroupModel> m_GroupList = new List<Model.TrickerStarGroupModel>();
-        //List<Model.TrickerStarNodeGroupModel> m_NodeGroupList = new List<Model.TrickerStarNodeGroupModel>();
+
         public System.Collections.Hashtable m_NodeCode = new System.Collections.Hashtable();
 
         //Key :String Value: Model.TrickerStarNodeGroupModel
+        /// <summary>
+        /// Key :String 
+        /// Value: Model.TrickerStarNodeGroupModel
+        /// </summary>
         public System.Collections.Hashtable m_NodeGroup = new System.Collections.Hashtable();
         public MainPage()
         {

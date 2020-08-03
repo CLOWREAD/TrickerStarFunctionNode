@@ -199,10 +199,47 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="C_SAVE_BUTTON" Content="SAVE"  Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="C_SAVE_BUTTON_Click" Background="#FFFFD100"/>
-            <Button x:Name="C_LOAD_BUTTON" Content="LOAD"  Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="C_LOAD_BUTTON_Click"  Grid.Column="1" Background="#FF00FFB9"/>
-            <Button x:Name="C_GEN_BUTTON" Content="GEN"  Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   Grid.Column="2" Click="C_GEN_BUTTON_Click" Background="#FF5F75FF"/>
-            <Button x:Name="C_CLEAR_BUTTON" Content="CLR"  Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   Grid.Column="3" Click="C_CLEAR_BUTTON_Click" Background="#FF44B3FF"/>
+            <Button x:Name="C_SAVE_BUTTON" Content="SAVE"  Margin="4,4,4,4"  CornerRadius="16,16,16,16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="C_SAVE_BUTTON_Click" Background="#FFFFD100">
+                <Button.Resources>
+                    <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FF97FF00"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#BF00FF2E"/>
+                </Button.Resources>
+            </Button>
+
+            <Button x:Name="C_LOAD_BUTTON" Content="LOAD"  Margin="4,4,4,4"  CornerRadius="16,16,16,16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="C_LOAD_BUTTON_Click"  Grid.Column="1" Background="#FF00FFB9">
+                <Button.Resources>
+                    <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FF97FF00"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#BF00FF2E"/>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="C_GEN_BUTTON" Content="GEN"  Margin="4,4,4,4"  CornerRadius="16,16,16,16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   Grid.Column="2" Click="C_GEN_BUTTON_Click" Background="#FF5F75FF">
+                <Button.Resources>
+                    <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FF97FF00"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#BF00FF2E"/>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="C_CLEAR_BUTTON" Content="CLR"  Margin="4,4,4,4"  CornerRadius="16,16,16,16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   Grid.Column="3" Click="C_CLEAR_BUTTON_Click" Background="#FF44B3FF">
+                <Button.Resources>
+                    <SolidColorBrush Color="#FF666666" x:Key="ButtonBackgroundPointerOver"/>
+                    <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForeground" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FF97FF00"/>
+                    <SolidColorBrush x:Key="ButtonForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#BF00FF2E"/>
+                </Button.Resources>
+            </Button>
 
         </Grid>
     </Grid>

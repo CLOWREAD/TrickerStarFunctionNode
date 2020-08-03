@@ -416,6 +416,8 @@ namespace FunctionNode
             {
                 case Model.TrickerStarSlotType.STRING:
                     return Windows.UI.Color.FromArgb(255, 0, 255, 255);
+                case Model.TrickerStarSlotType.BOOL:
+                    return Windows.UI.Color.FromArgb(255, 64, 128, 240);
                     break;
                 case Model.TrickerStarSlotType.INT:
                     return Windows.UI.Color.FromArgb(255, 255, 128, 128);
